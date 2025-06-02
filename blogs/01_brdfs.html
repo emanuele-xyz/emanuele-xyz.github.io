@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BRDFs</title>
+    <link rel="stylesheet" href="../styles.css" />
+
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <!-- KaTeX JS (auto-render) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+
+    <nav>
+        <div>
+            <a href="../index.html">Home</a>
+        </div>
+        <a href="https://github.com/emanuele-xyz" target="_blank">GitHub</a>
+    </nav>
+
+    <section>
+        <h1>BRDFs 'till I collapse</h1>
+        <p><em>Posted on June 02, 2025</em></p>
+    </section>
+
+    <section>
+        <h2>Index</h2>
+        <ul>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#rendering-equation">The rendering equation</a></li>
+            <li><a href="#biblio">Bibliography</a></li>
+        </ul>
+    </section>
+
+    <section id="intro">
+        <h2>Introduction</h2>
+        <p class="text-block">
+            The main idea of this work is to present and implement as many BRDFs as I can. It's a work
+            in progress, so expect to find new content the next time you visit.
+        </p>
+    </section>
+
+    <section id="rendering-equation">
+        <h2>The rendering equation</h2>
+        <p class="text-block">
+            Before discussing various BRDFs, it is important to understand what actually is a BRDF. To do this we need
+            to
+            start by looking at the rendering equation <a href="#[1]">[1]</a>, presented by Kajiya in 1986.
+        </p>
+        <p class="text-block">
+            $$ I(x, x') = g(x, x') \left[ \epsilon(x, x') + \int_S \rho(x, x', x'') I(x', x'') \, dx'' \right] $$
+        </p>
+        <ul class="text-block">
+            <li>\( I(x, x') \) is the light going from \(x'\) to \(x\).</li>
+            <li>\( g(x, x') \) is a geometry term. This term represents occlusion.</li>
+            <li>\( g(x, x') = 0 \) when \(x\) and \(x'\) are not mutually visible. </li>
+            <li>\( g(x, x') = \frac{1}{r^2} \) when \(x\) and \(x'\) are mutually visible.</li>
+            <li>\(r\) is the distance between \(x\) and \(x'\).</li>
+            <li>\( \epsilon(x, x') \) is the emitted light going from point \(x'\) to point \(x\).</li>
+            <li>\(S\) is the set of all surface points in the scene.</li>
+            <li>\( x, x', x'' \in S \) are surface points.</li>
+            <li>\( \rho(x, x', x'') \) is the light scattered from \(x''\) to \(x\) by \(x'\).</li>
+        </ul>
+        <p class="text-block">
+            To put it simply, this equation states that the light going from \(x'\) to \(x\) is the sum of the emitted
+            light from \(x'\) to \(x\) and the total light that is scattered toward \(x\) from all other surface points.
+        </p>
+        <p class="text-block">
+            Another form for the rendering equation, and the one that you will most probably find when looking around,
+            is the following.
+        </p>
+        <p>
+            $$ L_o(\mathbf{x}, \omega_o, \lambda) = L_e(\mathbf{x}, \omega_o, \lambda) +
+            \int_{\Omega} f_r(\mathbf{x}, \omega_i, \omega_o, \lambda) \, L_i(\mathbf{x}, \omega_i, \lambda) \,
+            (\omega_i \cdot \mathbf{n}) \, \mathrm{d}\omega_i
+            $$
+        </p>
+        <p class="text-block">TODO: discuss alternative form for the rendering equation.</p>
+        <p class="text-block">
+            Any rendering algorithm is trying to solve the rendering equation. More specifically, it is trying to find an approximate solution, that is good enough for its purposes.
+        </p>
+    </section>
+
+    <section id="biblio">
+        <h2>Bibliography</h2>
+        <ul>
+            <li id="[1]">
+                <a href="https://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/86kajiyaRenderingEquation.pdf"
+                    target="_blank" rel="noopener noreferrer">
+                    [1] The Rendering Equation
+                </a>
+            </li>
+        </ul>
+    </section>
+
+</body>
+
+</html>
