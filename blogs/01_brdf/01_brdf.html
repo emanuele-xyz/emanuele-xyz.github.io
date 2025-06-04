@@ -12,10 +12,18 @@
     <!-- KaTeX CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
+    <!-- Force light theme -->
+    <style>
+        html {
+            color-scheme: light;
+        }
+    </style>
+
     <!-- KaTeX JS (auto-render) -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
         onload="renderMathInElement(document.body);"></script>
+
 </head>
 
 <body>
@@ -23,14 +31,14 @@
     <hr>
     <nav>
         <div style="text-align: center;">
-            <a href="../index.html">Home</a>
+            <a href="../../index.html">Home</a>
             <a href="https://github.com/emanuele-xyz" target="_blank">GitHub</a>
         </div>
     </nav>
     <hr>
 
     <section>
-        <h1>BRDFs 'till I collapse</h1>
+        <h1>BRDFs 'til I collapse</h1>
         <p><em>Posted on June 02, 2025</em></p>
     </section>
 
@@ -39,6 +47,7 @@
         <ul>
             <li><a href="#intro">Introduction</a></li>
             <li><a href="#rendering-equation">The rendering equation</a></li>
+            <li><a href="#brdf">BRDF</a></li>
             <li><a href="#biblio">Bibliography</a></li>
         </ul>
     </section>
@@ -70,52 +79,68 @@
             <li>\( \epsilon(x, x') \) is the emitted light going from point \(x'\) to point \(x\).</li>
             <li>\(S\) is the set of all surface points in the scene.</li>
             <li>\( x, x', x'' \in S \) are surface points.</li>
-            <li>\( \rho(x, x', x'') \) is the light scattered from point \(x''\) to point \(x\) by point \(x'\).</li>
+            <li>\( \rho(x, x', x'') \) is the light reflected from point \(x''\) to point \(x\) by point \(x'\).</li>
         </ul>
         <p>
             To put it simply, this equation states that the light going from \(x'\) to \(x\) is the sum of the emitted
-            light from \(x'\) to \(x\) and the total light that is scattered toward \(x\) from all other surface points.
+            light from \(x'\) to \(x\) and the total light that is reflected toward \(x\), by \(x'\), from all other
+            surface points.
         </p>
         <p>
             Another form for the rendering equation, and the one that you will most probably find when looking around,
             is the following.
         </p>
         <div style="overflow: auto;">
-            $$ L_o(\mathbf{x}, \omega_o, \lambda) = L_e(\mathbf{x}, \omega_o, \lambda) +
-            \int_{\Omega} f_r(\mathbf{x}, \omega_i, \omega_o, \lambda) \, L_i(\mathbf{x}, \omega_i, \lambda) \,
-            (\omega_i \cdot \mathbf{n}) \, \mathrm{d}\omega_i
-            $$
+            $$ L_o(x, \omega_o) = L_e(x, \omega_o) + \int_{\Omega} f_r(x, \omega_i, \omega_o) \, L_i(x, \omega_i) \,
+            (\omega_i \cdot n) \, \mathrm{d}\omega_i $$
         </div>
         <ul>
             <li>
-                \(L_o(\mathbf{x}, \omega_o, \lambda)\) is the outgoing light, of wavelength \(\lambda\), from point
-                \(x\), along direction \(\omega_o\).
+                \(L_o(x, \omega_o)\) is the outgoing light, from point \(x\), along direction \(\omega_o\).
             </li>
             <li>
-                \(L_e(\mathbf{x}, \omega_o, \lambda)\) is the emitted light, of wavelength \(\lambda\), from point
-                \(x\), along direction \(\omega_o\).
+                \(L_e(x, \omega_o)\) is the emitted light, from point \(x\), along direction \(\omega_o\).
             </li>
             <li>\(\Omega\) is the unit hemisphere centered along \(n\).</li>
             <li>\(n\) is the surface normal at point \(x\).</li>
             <li>\(\omega_i \in \Omega\) is a negated direction for possible incoming light.</li>
             <li>
-                \(f_r(\mathbf{x}, \omega_i, \omega_o, \lambda)\) is the proportion of light, of wavelength \(\lambda\),
-                reflected from \(\omega_i\) towards \(\omega_o\), at position \(x\).
+                \(f_r(x, \omega_i, \omega_o)\) is the proportion of light, reflected from \(\omega_i\) toward
+                \(\omega_o\), at position \(x\).
             </li>
             <li>
-                \(L_i(\mathbf{x}, \omega_i, \lambda)\) is the incoming light, of wavelength \(\lambda\), toward point
-                \(x\), from direction \(\omega_i\).
+                \(L_i(x, \omega_i)\) is the incoming light, toward point \(x\), from direction \(\omega_i\).
             </li>
             <li>
-                \(\omega_i \cdot \mathbf{n}\) is the cosine of the angle between \(\omega_i\) and \(\mathbf{n}\). It is
+                \(\omega_i \cdot n\) is the cosine of the angle between \(\omega_i\) and \(\n\). It is
                 used as a weighting term and represents the fact that the intensity of reflected light from a surface is
                 proportional to the cosine of the angle between the negated light direction and the surface normal. This
                 is Lambert's cosine law.
             </li>
         </ul>
         <p>
+            This equation follows the same idea as the one presented above. It states that the amount of light
+            going out of point \(x\), along direction \(\omega_o\), is the sum of the light emitted by \(x\), along
+            \(\omega_o\), and the reflected light at \(x\), along direction \(\omega_o\).
+        </p>
+        <figure style="display: table; margin: 1em auto; text-align: center;">
+            <img src="rendering_equation.svg" alt="rendering equation" style="max-width: 100%; height: auto;">
+            <figcaption>Rendering equation.</figcaption>
+        </figure>
+        <p>
             Any rendering algorithm is trying to solve the rendering equation. More specifically, it is trying to find
             an approximate solution, that is good enough for its purposes.
+        </p>
+    </section>
+
+    <section id="brdf">
+        <h2>BRDF</h2>
+        <p>
+            Having discussed the rendering equation, we have already met the bidirectional reflectance
+            distribution function, or BRDF for short. In the first form of the rendering equation, the BRDF is
+            represented by function \( \rho(x, x', x'') \). In the second form of the rendering equation, the BRDF is
+            represented by function \(f_r(x, \omega_i, \omega_o)\). We can see that, in both forms, the BRDF defines how
+            light is reflected off a surface.
         </p>
     </section>
 
