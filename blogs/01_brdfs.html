@@ -45,7 +45,7 @@
 
     <section id="intro">
         <h2>Introduction</h2>
-        <p class="text-block">
+        <p>
             The main idea of this work is to present and implement as many BRDFs as I can. It's a work
             in progress, so expect to find new content the next time you visit.
         </p>
@@ -53,7 +53,7 @@
 
     <section id="rendering-equation">
         <h2>The rendering equation</h2>
-        <p class="text-block">
+        <p>
             Before discussing various BRDFs, it is important to understand what actually is a BRDF. To do this we need
             to
             start by looking at the rendering equation <a href="#[1]">[1]</a>, presented by Kajiya in 1986.
@@ -61,7 +61,7 @@
         <div style="overflow: auto;">
             $$ I(x, x') = g(x, x') \left[ \epsilon(x, x') + \int_S \rho(x, x', x'') I(x', x'') \, dx'' \right] $$
         </div>
-        <ul class="text-block">
+        <ul>
             <li>\( I(x, x') \) is the light going from point \(x'\) to point \(x\).</li>
             <li>\( g(x, x') \) is a geometry term. This term represents occlusion.</li>
             <li>\( g(x, x') = 0 \) when points \(x\) and \(x'\) are not mutually visible. </li>
@@ -72,11 +72,11 @@
             <li>\( x, x', x'' \in S \) are surface points.</li>
             <li>\( \rho(x, x', x'') \) is the light scattered from point \(x''\) to point \(x\) by point \(x'\).</li>
         </ul>
-        <p class="text-block">
+        <p>
             To put it simply, this equation states that the light going from \(x'\) to \(x\) is the sum of the emitted
             light from \(x'\) to \(x\) and the total light that is scattered toward \(x\) from all other surface points.
         </p>
-        <p class="text-block">
+        <p>
             Another form for the rendering equation, and the one that you will most probably find when looking around,
             is the following.
         </p>
@@ -86,7 +86,7 @@
             (\omega_i \cdot \mathbf{n}) \, \mathrm{d}\omega_i
             $$
         </div>
-        <ul class="text-block">
+        <ul>
             <li>
                 \(L_o(\mathbf{x}, \omega_o, \lambda)\) is the outgoing light, of wavelength \(\lambda\), from point
                 \(x\), along direction \(\omega_o\).
@@ -113,7 +113,7 @@
                 is Lambert's cosine law.
             </li>
         </ul>
-        <p class="text-block">
+        <p>
             Any rendering algorithm is trying to solve the rendering equation. More specifically, it is trying to find
             an approximate solution, that is good enough for its purposes.
         </p>
