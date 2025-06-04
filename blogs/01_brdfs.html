@@ -5,7 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BRDFs</title>
-    <link rel="stylesheet" href="../styles.css" />
+
+    <!-- LaTeX.css -->
+    <link rel="stylesheet" href="https://latex.vercel.app/style.min.css" />
 
     <!-- KaTeX CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
@@ -18,12 +20,14 @@
 
 <body>
 
+    <hr>
     <nav>
-        <div>
+        <div style="text-align: center;">
             <a href="../index.html">Home</a>
+            <a href="https://github.com/emanuele-xyz" target="_blank">GitHub</a>
         </div>
-        <a href="https://github.com/emanuele-xyz" target="_blank">GitHub</a>
     </nav>
+    <hr>
 
     <section>
         <h1>BRDFs 'till I collapse</h1>
@@ -54,7 +58,7 @@
             to
             start by looking at the rendering equation <a href="#[1]">[1]</a>, presented by Kajiya in 1986.
         </p>
-        <div>
+        <div style="overflow: auto;">
             $$ I(x, x') = g(x, x') \left[ \epsilon(x, x') + \int_S \rho(x, x', x'') I(x', x'') \, dx'' \right] $$
         </div>
         <ul class="text-block">
@@ -76,7 +80,7 @@
             Another form for the rendering equation, and the one that you will most probably find when looking around,
             is the following.
         </p>
-        <div>
+        <div style="overflow: auto;">
             $$ L_o(\mathbf{x}, \omega_o, \lambda) = L_e(\mathbf{x}, \omega_o, \lambda) +
             \int_{\Omega} f_r(\mathbf{x}, \omega_i, \omega_o, \lambda) \, L_i(\mathbf{x}, \omega_i, \lambda) \,
             (\omega_i \cdot \mathbf{n}) \, \mathrm{d}\omega_i
