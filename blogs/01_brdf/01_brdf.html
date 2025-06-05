@@ -39,7 +39,7 @@
 
     <section>
         <h1>BRDFs 'til I collapse</h1>
-        <p><em>Posted on June 02, 2025</em></p>
+        <p><em>Posted on June 02, 2025</em> - <em>Updated on June 05, 2025</em></p>
     </section>
 
     <section>
@@ -142,6 +142,13 @@
             represented by function \(f_r(x, \omega_i, \omega_o)\). We can see that, in both forms, the BRDF defines how
             light is reflected off a surface.
         </p>
+        <p>
+            The idea of the BRDF was first presented by Nicodemus, in 1965 <a href="#[2]">[2]</a>. The BRDF is defined
+            as the ratio between reflected radiance along direction \(\omega_o\) and incoming irradiance, incident on
+            surface point \(x\), coming from direction \(\omega_i\). For simplicity's sake, you can imagine the BRDF to
+            be the ratio of outgoing and incoming light, the first along direction \(\omega_o\), the second along
+            direction \(\omega_i\), at surface point \(x\).
+        </p>
     </section>
 
     <section id="biblio">
@@ -150,8 +157,12 @@
             <li id="[1]">
                 <a href="https://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/86kajiyaRenderingEquation.pdf"
                     target="_blank" rel="noopener noreferrer">
-                    [1] The Rendering Equation
+                    [1] The Rendering Equation, Kajiya 1986
                 </a>
+            </li>
+            <li id="[2]">
+                [2] Directional Reflectance and Emissivity of an Opaque Surface, Nicodemus 1965 [DOI:
+                10.1364/AO.4.000767]
             </li>
         </ul>
     </section>
