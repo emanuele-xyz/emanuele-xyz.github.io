@@ -48,6 +48,11 @@
             <li><a href="#intro">Introduction</a></li>
             <li><a href="#rendering-equation">The rendering equation</a></li>
             <li><a href="#brdf">BRDF</a></li>
+            <ul>
+                <li><a href="#brdf-positivity">Positivity</a></li>
+                <li><a href="#brdf-reciprocity">Helmholtz Reciprocity</a></li>
+                <li><a href="#brdf-energy-conservation">Energy Conservation</a></li>
+            </ul>
             <li><a href="#biblio">Bibliography</a></li>
         </ul>
     </section>
@@ -128,8 +133,9 @@
             <figcaption>Rendering equation.</figcaption>
         </figure>
         <p>
-            Any rendering algorithm is trying to solve the rendering equation. More specifically, it is trying to find
-            an approximate solution, that is good enough for its purposes.
+            Any rendering algorithm that is trying to simulate light in a somewhat believable way, is fundamentally
+            trying to find a solution to the rendering equation. More specifically, it is trying to find an approximate
+            solution, one that is good enough for its purposes.
         </p>
     </section>
 
@@ -149,6 +155,47 @@
             be the ratio of outgoing and incoming light, the first along direction \(\omega_o\), the second along
             direction \(\omega_i\), at surface point \(x\).
         </p>
+        <p>
+            Any implementation of the BRDF that may come to our mind, in order for it to be physically plausible, i.e.
+            respect the laws of physics, must satisfy the following three properties: positivity, Helmholtz reciprocity
+            and energy conservation.
+        </p>
+
+        <section id="brdf-positivity">
+            <h3>Positivity</h3>
+
+            <p>
+                The BRDF must always be positive. TODO(why).
+            </p>
+
+            <div style="overflow: auto;">
+                $$ f_r(x, \omega_i, \omega_o) >= 0 $$
+            </div>
+        </section>
+
+        <section id="brdf-reciprocity">
+            <h3>Helmholtz Reciprocity</h3>
+
+            <p>
+                The BRDF must follow Helmholtz reciprocity principle. TODO (why?)
+            </p>
+
+            <div style="overflow: auto;">
+                $$ f_r(x, \omega_i, \omega_o) = f_r(x, \omega_o, \omega_i) $$
+            </div>
+        </section>
+
+        <section id="brdf-energy-conservation">
+            <h3>Energy Conservation</h3>
+
+            <p>
+                The BRDF must follow the law of conservation of energy. TODO(why?)
+            </p>
+
+            <div style="overflow: auto;">
+                $$ \forall \omega_i, \int_{\Omega} f_r(\omega_i, \omega_r) \cos \theta_r \, d\omega_r \leq 1 $$
+            </div>
+        </section>
     </section>
 
     <section id="biblio">
