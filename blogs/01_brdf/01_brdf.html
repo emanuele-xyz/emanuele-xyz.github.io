@@ -156,20 +156,20 @@
             direction \(\omega_i\), at surface point \(x\).
         </p>
         <p>
-            Any implementation of the BRDF that may come to our mind, in order for it to be physically plausible, i.e.
+            Any implementation of the BRDF that would like to be physically plausible, i.e.
             respect the laws of physics, must satisfy the following three properties: positivity, Helmholtz reciprocity
-            and energy conservation.
+            and energy conservation <a href="#[3]">[3]</a>.
         </p>
 
         <section id="brdf-positivity">
             <h3>Positivity</h3>
 
             <p>
-                The BRDF must always be positive. TODO(why).
+                The BRDF must always be positive. Negative reflectance is not allowed.
             </p>
 
             <div style="overflow: auto;">
-                $$ f_r(x, \omega_i, \omega_o) >= 0 $$
+                $$ f_r(x, \omega_i, \omega_o) \geq 0 $$
             </div>
         </section>
 
@@ -177,7 +177,8 @@
             <h3>Helmholtz Reciprocity</h3>
 
             <p>
-                The BRDF must follow Helmholtz reciprocity principle. TODO (why?)
+                The BRDF must follow Helmholtz reciprocity principle. This means that, if we were to swap the incoming
+                and outgoing directions, the reflectance would be the same.
             </p>
 
             <div style="overflow: auto;">
@@ -189,11 +190,17 @@
             <h3>Energy Conservation</h3>
 
             <p>
-                The BRDF must follow the law of conservation of energy. TODO(why?)
+                The BRDF must follow the law of conservation of energy, i.e. energy can neither be created nor
+                destroyed. Since we are talking about light, this law is saying that the amount of outgoing light cannot
+                be greater than the amount of incoming light.
+            </p>
+
+            <p>
+                Energy conservation for the BRDF is often formalized as follows.
             </p>
 
             <div style="overflow: auto;">
-                $$ \forall \omega_i, \int_{\Omega} f_r(\omega_i, \omega_r) \cos \theta_r \, d\omega_r \leq 1 $$
+                $$ \int_{\Omega} f_r(x, \omega_i, \omega_o) \, (\omega_i \cdot n) \, \mathrm{d}\omega_i \le 1 $$
             </div>
         </section>
     </section>
@@ -210,6 +217,10 @@
             <li id="[2]">
                 [2] Directional Reflectance and Emissivity of an Opaque Surface, Nicodemus 1965 [DOI:
                 10.1364/AO.4.000767]
+            </li>
+            <li id="[3]">
+                [3] Numerical Verification of Bidirectional Reflectance Distribution Functions for Physical
+                Plausibility, Duvenhage, Bouatouch, Kourie 2013 [DOI: 10.1145/2513456.2513499]
             </li>
         </ul>
     </section>
