@@ -60,17 +60,19 @@
     <section id="intro">
         <h2>Introduction</h2>
         <p>
-            The main idea of this work is to present and implement as many BRDFs as I can. It's a work
-            in progress, so expect to find new content the next time you visit.
+            The aim of this work is to to present to the uninitiated what a BRDF is. We follow this discussion by
+            discussing the most notorious BRDFs in the literature. Each BRDF is also implemented through a graphics API.
         </p>
     </section>
 
     <section id="rendering-equation">
         <h2>The rendering equation</h2>
         <p>
-            Before discussing various BRDFs, it is important to understand what actually is a BRDF. To do this we need
-            to
-            start by looking at the rendering equation <a href="#[1]">[1]</a>, presented by Kajiya in 1986.
+            Before discussing what is a BRDF, we need to take a step back and spend some time talking about the
+            rendering equation. We do this because BRDFs are one piece of the picture painted by the rendering equation.
+        </p>
+        <p>
+            The rendering equation, as was introduced by Kajiya in 1986 <a href="#[1]">[1]</a>, is presented below.
         </p>
         <div style="overflow: auto;">
             $$ I(x, x') = g(x, x') \left[ \epsilon(x, x') + \int_S \rho(x, x', x'') I(x', x'') \, dx'' \right] $$
@@ -87,13 +89,13 @@
             <li>\( \rho(x, x', x'') \) is the light reflected from point \(x''\) to point \(x\) by point \(x'\).</li>
         </ul>
         <p>
-            To put it simply, this equation states that the light going from \(x'\) to \(x\) is the sum of the emitted
+            This equation states that the light going from \(x'\) to \(x\) is the sum of the emitted
             light from \(x'\) to \(x\) and the total light that is reflected toward \(x\), by \(x'\), from all other
             surface points.
         </p>
         <p>
-            Another form for the rendering equation, and the one that you will most probably find when looking around,
-            is the following.
+            Another form for the rendering equation, and the one that you will most probably find in the literature, is
+            the following.
         </p>
         <div style="overflow: auto;">
             $$ L_o(x, \omega_o) = L_e(x, \omega_o) + \int_{\Omega} f_r(x, \omega_i, \omega_o) \, L_i(x, \omega_i) \,
@@ -117,25 +119,30 @@
                 \(L_i(x, \omega_i)\) is the incoming light, toward point \(x\), from direction \(\omega_i\).
             </li>
             <li>
-                \(\omega_i \cdot n\) is the cosine of the angle between \(\omega_i\) and \(\n\). It is
+                \(\omega_i \cdot n\) is the cosine of the angle between \(\omega_i\) and \(n\). It is
                 used as a weighting term and represents the fact that the intensity of reflected light from a surface is
                 proportional to the cosine of the angle between the negated light direction and the surface normal. This
                 is Lambert's cosine law.
             </li>
         </ul>
         <p>
-            This equation follows the same idea as the one presented above. It states that the amount of light
-            going out of point \(x\), along direction \(\omega_o\), is the sum of the light emitted by \(x\), along
-            \(\omega_o\), and the reflected light at \(x\), along direction \(\omega_o\).
+            This form of the rendering equation follows the same idea as the one presented above. It states that the
+            amount of light going out of point \(x\), along direction \(\omega_o\), is the sum of the light emitted by
+            \(x\), along \(\omega_o\), and the reflected light at \(x\), along direction \(\omega_o\).
         </p>
         <figure style="display: table; margin: 1em auto; text-align: center;">
             <img src="rendering_equation.svg" alt="rendering equation" style="max-width: 100%; height: auto;">
             <figcaption>Rendering equation.</figcaption>
         </figure>
         <p>
-            Any rendering algorithm that is trying to simulate light in a somewhat believable way, is fundamentally
-            trying to find a solution to the rendering equation. More specifically, it is trying to find an approximate
-            solution, one that is good enough for its purposes.
+            The rendering equation is what unifies all various rendering algorithms. As you may guess, light is a
+            central aspect of rendering, especially if we want our rendering to be believable, plausible, or even
+            physically accurate. Any non trivial rendering algorithm is, in some way, trying to simulate how light
+            works, how light behaves and interacts with matter. This means that it is trying to solve the rendering
+            equation. More precisely, it is trying to find a solution to the rendering equation. Solution that, in most
+            cases, either cannot be found, because it doesn't exist, or it would be too complex to do so. Thus, what
+            rendering algorithms find when trying to solve the rendering equation is just an approximate solution. One
+            that, nonetheless, yields satisfying results.
         </p>
     </section>
 
