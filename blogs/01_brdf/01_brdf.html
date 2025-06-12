@@ -46,12 +46,18 @@
         <h2>Index</h2>
         <ul>
             <li><a href="#intro">Introduction</a></li>
-            <li><a href="#rendering-equation">The rendering equation</a></li>
+            <li><a href="#rendering-equation">The Rendering Equation</a></li>
             <li><a href="#brdf">BRDF</a></li>
             <ul>
-                <li><a href="#brdf-positivity">Positivity</a></li>
-                <li><a href="#brdf-reciprocity">Helmholtz Reciprocity</a></li>
-                <li><a href="#brdf-energy-conservation">Energy Conservation</a></li>
+                <li><a href="#brdf-definition">Definition</a></li>
+                <li><a href="#brdf-materials">Materials</a></li>
+                <li><a href="#brdf-implementation">Implementation</a></li>
+                <li><a href="#brdf-physical-plausibility">Physical Plausibility</a></li>
+                <ul>
+                    <li><a href="#brdf-physical-plausibility-positivity">Positivity</a></li>
+                    <li><a href="#brdf-physical-plausibility-reciprocity">Helmholtz Reciprocity</a></li>
+                    <li><a href="#brdf-physical-plausibility-energy-conservation">Energy Conservation</a></li>
+                </ul>
             </ul>
             <li><a href="#biblio">Bibliography</a></li>
         </ul>
@@ -60,16 +66,16 @@
     <section id="intro">
         <h2>Introduction</h2>
         <p>
-            The aim of this work is to to present to the uninitiated what a BRDF is. We follow this discussion by
+            The aim of this work is to to present to the uninitiated what a BRDF is. We follow by
             discussing the most notorious BRDFs in the literature. Each BRDF is also implemented through a graphics API.
         </p>
     </section>
 
     <section id="rendering-equation">
-        <h2>The rendering equation</h2>
+        <h2>The Rendering Equation</h2>
         <p>
-            Before discussing what is a BRDF, we need to take a step back and spend some time talking about the
-            rendering equation. We do this because BRDFs are one piece of the picture painted by the rendering equation.
+            Before focusing on BRDFs, we need to take a step back and spend some time talking about the
+            rendering equation. We do this because BRDFs are just one piece of the puzzle.
         </p>
         <p>
             The rendering equation, as was introduced by Kajiya in 1986 <a href="#[1]">[1]</a>, is presented below.
@@ -126,9 +132,9 @@
             </li>
         </ul>
         <p>
-            This form of the rendering equation follows the same idea as the one presented above. It states that the
+            This form of the rendering equation follows the same idea as the one above. It states that the
             amount of light going out of point \(x\), along direction \(\omega_o\), is the sum of the light emitted by
-            \(x\), along \(\omega_o\), and the reflected light at \(x\), along direction \(\omega_o\).
+            \(x\), along \(\omega_o\), and the reflected light at \(x\), along \(\omega_o\).
         </p>
         <figure style="display: table; margin: 1em auto; text-align: center;">
             <img src="rendering_equation.svg" alt="rendering equation" style="max-width: 100%; height: auto;">
@@ -136,79 +142,140 @@
         </figure>
         <p>
             The rendering equation is what unifies all various rendering algorithms. As you may guess, light is a
-            central aspect of rendering, especially if we want our rendering to be believable, plausible, or even
+            central aspect of rendering, especially if we want it to be believable, plausible, or even
             physically accurate. Any non trivial rendering algorithm is, in some way, trying to simulate how light
-            works, how light behaves and interacts with matter. This means that it is trying to solve the rendering
-            equation. More precisely, it is trying to find a solution to the rendering equation. Solution that, in most
-            cases, either cannot be found, because it doesn't exist, or it would be too complex to do so. Thus, what
-            rendering algorithms find when trying to solve the rendering equation is just an approximate solution. One
-            that, nonetheless, yields satisfying results.
+            works, how light behaves and interacts with matter. This means that any rendering algorithm is trying to
+            solve the rendering equation. More precisely, it is trying to find a solution to the rendering equation.
+            Solution that, in most cases, either cannot be found, because it doesn't exist, or it would be too complex
+            to do so. Thus, what rendering algorithms find when trying to solve the rendering equation is just an
+            approximate solution. One that, nonetheless, yields satisfying results.
         </p>
     </section>
 
     <section id="brdf">
         <h2>BRDF</h2>
         <p>
-            Having discussed the rendering equation, we have already met the bidirectional reflectance
-            distribution function, or BRDF for short. In the first form of the rendering equation, the BRDF is
-            represented by function \( \rho(x, x', x'') \). In the second form of the rendering equation, the BRDF is
-            represented by function \(f_r(x, \omega_i, \omega_o)\). We can see that, in both forms, the BRDF defines how
-            light is reflected off a surface.
+            Looking at the rendering equation, we have already met the idea of a function that tells us how light,
+            hitting a surface point, gets reflected off of it. This function is called a bidirectional reflectance
+            distribution function, or BRDF for short.
         </p>
         <p>
-            The idea of the BRDF was first presented by Nicodemus, in 1965 <a href="#[2]">[2]</a>. The BRDF is defined
-            as the ratio between reflected radiance along direction \(\omega_o\) and incoming irradiance, incident on
-            surface point \(x\), coming from direction \(\omega_i\). For simplicity's sake, you can imagine the BRDF to
-            be the ratio of outgoing and incoming light, the first along direction \(\omega_o\), the second along
-            direction \(\omega_i\), at surface point \(x\).
-        </p>
-        <p>
-            Any implementation of the BRDF that would like to be physically plausible, i.e.
-            respect the laws of physics, must satisfy the following three properties: positivity, Helmholtz reciprocity
-            and energy conservation <a href="#[3]">[3]</a>.
+            In the first form of the rendering equation, the BRDF is
+            represented by function \( \rho(x, x', x'') \). In the second form of the rendering equation, the BRDF was
+            denoted by function \(f_r(x, \omega_i, \omega_o)\). Throughout the rest of our discussion, we will denote a
+            generic BRDF using the latter notation.
         </p>
 
-        <section id="brdf-positivity">
-            <h3>Positivity</h3>
+        <section id="brdf-definition">
+            <h3>Definition</h3>
 
             <p>
-                The BRDF must always be positive. Negative reflectance is not allowed.
+                The idea of a BRDF was first presented by Nicodemus, in 1965 <a href="#[2]">[2]</a>. A BRDF \(f_r(x,
+                \omega_i, \omega_o)\) is formally defined as the ratio of the reflected radiance, along direction
+                \(\omega_o\), to the incoming irradiance, coming from direction \(\omega_i\), both incident on surface
+                point \(x\).
             </p>
-
-            <div style="overflow: auto;">
-                $$ f_r(x, \omega_i, \omega_o) \geq 0 $$
-            </div>
+            <p>
+                For simplicity's sake, being less formal but hopefully more clear, we can imagine a BRDF to be
+                defined as the ratio of outgoing and incoming light, the first along direction \(\omega_o\), the second
+                along direction \(\omega_i\), both being incident at surface point \(x\).
+            </p>
         </section>
 
-        <section id="brdf-reciprocity">
-            <h3>Helmholtz Reciprocity</h3>
+        <section id="brdf-materials">
+            <h3>Materials</h3>
 
             <p>
-                The BRDF must follow Helmholtz reciprocity principle. This means that, if we were to swap the incoming
-                and outgoing directions, the reflectance would be the same.
+                A BRDF tells us how light gets reflected off a surface. The way in which light interacts with a surface,
+                in particular how incident light gets reflected off a surface, entirely depends on the surface's
+                characteristics, that is the surface's material. Surfaces with very different materials, interact with
+                light in very different ways. Think, for example, of how wood and metal differently reflect light.
             </p>
 
-            <div style="overflow: auto;">
-                $$ f_r(x, \omega_i, \omega_o) = f_r(x, \omega_o, \omega_i) $$
-            </div>
+            <p>
+                It is clear that, BRDFs are tightly related to surface materials. In particular, since different
+                materials reflect light in different ways, we need to change how a BRDF behaves, depending on the
+                surface material. There are two ways in which we can do so:
+            </p>
+
+            <ul>
+                <li>
+                    We may add additional parameters to our BRDF implementation, apart from \(x\), \(\omega_i\) and
+                    \(\omega_o\). For different values of these additional parameters, our BRDF implementation will
+                    behave differently. This allows us to be able to model different materials. By changing the values
+                    of the additional parameters will yield a different material.
+                </li>
+                <li>
+                    We may use entirely different BRDF implementations for different materials.
+                </li>
+            </ul>
+
+            <p>
+                Note that, in practice, most people make use of a hybrid approach. In order to model all the materials
+                needed to render a scene, different BRDF implementations are used, each one having additional
+                parameters. The reason being that, most BRDF implementations, specialize on a specific set of materials
+                that they manage to model with satisfying degrees of results.
+            </p>
         </section>
 
-        <section id="brdf-energy-conservation">
-            <h3>Energy Conservation</h3>
+        <section id="brdf-implementation">
+            <h3>Implementation</h3>
+        </section>
+
+        <section id="brdf-physical-plausibility">
+            <h3>Physical Plausibility</h3>
 
             <p>
-                The BRDF must follow the law of conservation of energy, i.e. energy can neither be created nor
-                destroyed. Since we are talking about light, this law is saying that the amount of outgoing light cannot
-                be greater than the amount of incoming light.
+                Any implementation of the BRDF that would like to be physically plausible, i.e.
+                respect the laws of physics, must satisfy the following three properties: positivity, Helmholtz
+                reciprocity
+                and energy conservation <a href="#[3]">[3]</a>.
             </p>
 
-            <p>
-                Energy conservation for the BRDF is often formalized as follows.
-            </p>
+            <section id="brdf-physical-plausibility-positivity">
+                <h4>Positivity</h4>
 
-            <div style="overflow: auto;">
-                $$ \int_{\Omega} f_r(x, \omega_i, \omega_o) \, (\omega_i \cdot n) \, \mathrm{d}\omega_i \le 1 $$
-            </div>
+                <p>
+                    The BRDF must always be positive. Negative reflectance is not allowed.
+                </p>
+
+                <div style="overflow: auto;">
+                    $$ f_r(x, \omega_i, \omega_o) \geq 0 $$
+                </div>
+            </section>
+
+            <section id="brdf-physical-plausibility-reciprocity">
+                <h4>Helmholtz Reciprocity</h4>
+
+                <p>
+                    The BRDF must follow Helmholtz reciprocity principle. This means that, if we were to swap the
+                    incoming
+                    and outgoing directions, the reflectance would be the same.
+                </p>
+
+                <div style="overflow: auto;">
+                    $$ f_r(x, \omega_i, \omega_o) = f_r(x, \omega_o, \omega_i) $$
+                </div>
+            </section>
+
+            <section id="brdf-physical-plausibility-energy-conservation">
+                <h4>Energy Conservation</h4>
+
+                <p>
+                    The BRDF must follow the law of conservation of energy, i.e. energy can neither be created nor
+                    destroyed. Since we are talking about light, this law is saying that the amount of outgoing light
+                    cannot
+                    be greater than the amount of incoming light.
+                </p>
+
+                <p>
+                    Energy conservation for the BRDF is often formalized as follows.
+                </p>
+
+                <div style="overflow: auto;">
+                    $$ \int_{\Omega} f_r(x, \omega_i, \omega_o) \, (\omega_i \cdot n) \, \mathrm{d}\omega_i \le 1 $$
+                </div>
+            </section>
         </section>
     </section>
 
