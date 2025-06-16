@@ -39,7 +39,7 @@
 
     <section>
         <h1>BRDFs 'til I collapse</h1>
-        <p><em>Posted on June 02, 2025</em> - <em>Updated on June 05, 2025</em></p>
+        <p><em>Posted on June 02, 2025</em> - <em>Updated on June 16, 2025</em></p>
     </section>
 
     <section>
@@ -52,6 +52,10 @@
                 <li><a href="#brdf-definition">Definition</a></li>
                 <li><a href="#brdf-materials">Materials</a></li>
                 <li><a href="#brdf-implementation">Implementation</a></li>
+                <ul>
+                    <li><a href="#brdf-implementation-empirical">Empirical Models</a></li>
+                    <li><a href="#brdf-implementation-theoretical">Theoretical Models</a></li>
+                </ul>
                 <li><a href="#brdf-physical-plausibility">Physical Plausibility</a></li>
                 <ul>
                     <li><a href="#brdf-physical-plausibility-positivity">Positivity</a></li>
@@ -202,7 +206,7 @@
                 <li>
                     We may add additional parameters to our BRDF implementation, apart from \(x\), \(\omega_i\) and
                     \(\omega_o\). For different values of these additional parameters, our BRDF implementation will
-                    behave differently. This allows us to be able to model different materials. By changing the values
+                    behave differently. This allows us to be able to model different materials. Changing the values
                     of the additional parameters will yield a different material.
                 </li>
                 <li>
@@ -213,13 +217,46 @@
             <p>
                 Note that, in practice, most people make use of a hybrid approach. In order to model all the materials
                 needed to render a scene, different BRDF implementations are used, each one having additional
-                parameters. The reason being that, most BRDF implementations, specialize on a specific set of materials
-                that they manage to model with satisfying degrees of results.
+                parameters. This is because, most BRDF implementations, specialize on a specific set of materials
+                that they manage to model with satisfying results.
             </p>
         </section>
 
         <section id="brdf-implementation">
             <h3>Implementation</h3>
+
+            <p>
+                Above we have mentioned the idea of BRDF implementations. We have yet to see how a BRDF is implemented.
+                As Ward puts it <a href="#[4]">[4]</a>, there are two approaches: the empirical approach and the
+                theoretical approach.
+            </p>
+
+            <section id="brdf-implementation-empirical">
+                <h4>Empirical Models</h4>
+
+                <p>
+                    An empirical model for a BRDF is just a formula, with additional parameters, used for tweaking it.
+                    The main characteristic of an empirical model is that it is not derived following the laws of
+                    physics. The author just noticed something about how a given material, or class of materials,
+                    interacted with light, and from that observation came up with a formula for the BRDF. From this, we
+                    can surely understand that the additional parameters exposed by an empirical model are not of any
+                    physical significance.
+                </p>
+            </section>
+
+            <section id="brdf-implementation-theoretical">
+                <h4>Theoretical Models</h4>
+
+                <p>
+                    A theoretical model for a BRDF is an attempt at approximating the real BRDF of a material, or class
+                    of materials. This approximation is derived leveraging the laws of physics that we know. The
+                    additional parameters exposed by a theoretical model have some physical significance behind them.
+                </p>
+
+                <p>
+                    Talk about measuring these physical parameters
+                </p>
+            </section>
         </section>
 
         <section id="brdf-physical-plausibility">
@@ -228,8 +265,7 @@
             <p>
                 Any implementation of the BRDF that would like to be physically plausible, i.e.
                 respect the laws of physics, must satisfy the following three properties: positivity, Helmholtz
-                reciprocity
-                and energy conservation <a href="#[3]">[3]</a>.
+                reciprocity and energy conservation <a href="#[3]">[3]</a>.
             </p>
 
             <section id="brdf-physical-plausibility-positivity">
@@ -249,8 +285,7 @@
 
                 <p>
                     The BRDF must follow Helmholtz reciprocity principle. This means that, if we were to swap the
-                    incoming
-                    and outgoing directions, the reflectance would be the same.
+                    incoming and outgoing directions, the reflectance would be the same.
                 </p>
 
                 <div style="overflow: auto;">
@@ -295,6 +330,12 @@
             <li id="[3]">
                 [3] Numerical Verification of Bidirectional Reflectance Distribution Functions for Physical
                 Plausibility, Duvenhage, Bouatouch, Kourie 2013 [DOI: 10.1145/2513456.2513499]
+            </li>
+            <li id="[4]">
+                <a href="https://cseweb.ucsd.edu/~ravir/6998/papers/p265-ward.pdf" get="_blank"
+                    rel="noopener noreferrer">
+                    [4] Measuring and Modeling Anisotropic Reflection, Ward 1992
+                </a>
             </li>
         </ul>
     </section>
