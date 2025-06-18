@@ -39,7 +39,7 @@
 
     <section>
         <h1>BRDFs 'til I collapse</h1>
-        <p><em>Posted on June 02, 2025</em> - <em>Updated on June 16, 2025</em></p>
+        <p><em>Posted on June 02, 2025</em> - <em>Updated on June 18, 2025</em></p>
     </section>
 
     <section>
@@ -55,6 +55,7 @@
                 <ul>
                     <li><a href="#brdf-implementation-empirical">Empirical Models</a></li>
                     <li><a href="#brdf-implementation-theoretical">Theoretical Models</a></li>
+                    <li><a href="#brdf-implementation-measuring">Measuring BRDFs</a></li>
                 </ul>
                 <li><a href="#brdf-physical-plausibility">Physical Plausibility</a></li>
                 <ul>
@@ -132,7 +133,7 @@
                 \(\omega_i \cdot n\) is the cosine of the angle between \(\omega_i\) and \(n\). It is
                 used as a weighting term and represents the fact that the intensity of reflected light from a surface is
                 proportional to the cosine of the angle between the negated light direction and the surface normal. This
-                is Lambert's cosine law.
+                is Lambert's cosine law. TODO: rephrase this.
             </li>
         </ul>
         <p>
@@ -206,7 +207,7 @@
                 <li>
                     We may add additional parameters to our BRDF implementation, apart from \(x\), \(\omega_i\) and
                     \(\omega_o\). For different values of these additional parameters, our BRDF implementation will
-                    behave differently. This allows us to be able to model different materials. Changing the values
+                    behave differently. This allows us to model different materials. Changing the values
                     of the additional parameters will yield a different material.
                 </li>
                 <li>
@@ -227,7 +228,7 @@
 
             <p>
                 Above we have mentioned the idea of BRDF implementations. We have yet to see how a BRDF is implemented.
-                As Ward puts it <a href="#[4]">[4]</a>, there are two approaches: the empirical approach and the
+                As Ward <a href="#[4]">[4]</a> puts it, there are two approaches: the empirical approach and the
                 theoretical approach.
             </p>
 
@@ -252,10 +253,40 @@
                     of materials. This approximation is derived leveraging the laws of physics that we know. The
                     additional parameters exposed by a theoretical model have some physical significance behind them.
                 </p>
+            </section>
+
+            <section id="brdf-implementation-measuring">
+                <h4>Measuring BRDFs</h4>
 
                 <p>
-                    Talk about measuring these physical parameters
+                    Earlier we said that a BRDF implementation is just an attempt at approximating a real world BRDF.
+                    The simplest way in which we can approximate a function is sampling it and finding an approximating
+                    function for the samples. Well, it turns out that we can sample a BRDF. We just need a
+                    gonioreflectometer.
                 </p>
+
+                <p>
+                    The idea is very simple, but it's not easy to put it into practice. Measuring a BRDF using a
+                    gonioreflectometer is a laborious and expensive process. Moreover, we went through a lot of work
+                    just to find a single BRDF for the material we sampled. If we were to need a more materials for a
+                    scene, this approach would not scale. Nonetheless, sampling a BRDF has its uses, both for validating
+                    and for coming up with various BRDF implementations.
+                </p>
+
+                <p>
+                    We can use the BRDF samples we got from the gonioreflectometer to check whether they match the
+                    output of our BRDF implementation. If we have a BRDF implementation with additional parameters, we
+                    can check whether or not there is a set of said parameters that yields as output the same value as
+                    the sample. If this isn't the case, we know our BRDF implementation cannot model the sampled
+                    material.
+                </p>
+
+                <p>
+                    We can also use the BRDF samples we got from the gonioreflectometer to come up with a new BRDF
+                    implementation. This is done by analyzing patterns present in the samples to come up with a new
+                    model.
+                </p>
+
             </section>
         </section>
 
