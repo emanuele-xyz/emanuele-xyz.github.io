@@ -39,7 +39,7 @@
 
     <section>
         <h1>BRDFs 'til I collapse</h1>
-        <p><em>Posted on June 02, 2025</em> - <em>Updated on June 18, 2025</em></p>
+        <p><em>Posted on June 02, 2025</em> - <em>Updated on June 23, 2025</em></p>
     </section>
 
     <section>
@@ -64,6 +64,11 @@
                     <li><a href="#brdf-physical-plausibility-energy-conservation">Energy Conservation</a></li>
                 </ul>
             </ul>
+            <li><a href="#reflections">Reflections</a></li>
+            <ul>
+                <li><a href="#reflections-diffuse">Diffuse Reflection</a></li>
+                <li><a href="#reflections-specular">Specular Reflection</a></li>
+            </ul>
             <li><a href="#biblio">Bibliography</a></li>
         </ul>
     </section>
@@ -72,7 +77,7 @@
         <h2>Introduction</h2>
         <p>
             The aim of this work is to to present to the uninitiated what a BRDF is. We follow by
-            discussing the most notorious BRDFs in the literature. Each BRDF is also implemented through a graphics API.
+            discussing the most notorious BRDFs in the literature. Each BRDF is also implemented using a graphics API.
         </p>
     </section>
 
@@ -266,11 +271,11 @@
                 </p>
 
                 <p>
-                    The idea is very simple, but it's not easy to put it into practice. Measuring a BRDF using a
-                    gonioreflectometer is a laborious and expensive process. Moreover, we went through a lot of work
-                    just to find a single BRDF for the material we sampled. If we were to need a more materials for a
-                    scene, this approach would not scale. Nonetheless, sampling a BRDF has its uses, both for validating
-                    and for coming up with various BRDF implementations.
+                    The idea of sampling a BRDF is very simple, but it's not easy to put it into practice. Measuring a
+                    BRDF using a gonioreflectometer is a laborious and expensive process. Moreover, we go through a
+                    lot of work just to sample a single BRDF. If we were to need more
+                    materials for a scene, this approach would not scale. Nonetheless, sampling a BRDF has its uses,
+                    both for validating and for coming up with various BRDF implementations.
                 </p>
 
                 <p>
@@ -294,16 +299,22 @@
             <h3>Physical Plausibility</h3>
 
             <p>
-                Any implementation of the BRDF that would like to be physically plausible, i.e.
-                respect the laws of physics, must satisfy the following three properties: positivity, Helmholtz
-                reciprocity and energy conservation <a href="#[3]">[3]</a>.
+                Suppose we came up with our own BRDF model. We would like to know whether or not our model is physically
+                plausible, i.e. respect the laws of physics. We know that we can use a gonioreflectometer to sample a
+                BRDF and use the samples to validate our model. If the results coming from the model and the samples
+                don't match, we know that the model is not physically plausible. In the case of a model with additional
+                parameters, if the model and the samples were to match, we would still know nothing about its
+                correctness. We would need to sample a lot BRDFs and this wouldn't be realistic. Is there a more general
+                rule that can help us understand whether or not our model is physically plausible? It turns out that,
+                any physically plausible BRDF implementation must satisfy the following three properties: positivity,
+                Helmholtz reciprocity and energy conservation <a href="#[3]">[3]</a>.
             </p>
 
             <section id="brdf-physical-plausibility-positivity">
                 <h4>Positivity</h4>
 
                 <p>
-                    The BRDF must always be positive. Negative reflectance is not allowed.
+                    The BRDF implementation must always be positive. Negative reflectance is not allowed.
                 </p>
 
                 <div style="overflow: auto;">
@@ -315,7 +326,7 @@
                 <h4>Helmholtz Reciprocity</h4>
 
                 <p>
-                    The BRDF must follow Helmholtz reciprocity principle. This means that, if we were to swap the
+                    The BRDF implementation must follow Helmholtz reciprocity principle. This means that, if we were to swap the
                     incoming and outgoing directions, the reflectance would be the same.
                 </p>
 
@@ -328,20 +339,34 @@
                 <h4>Energy Conservation</h4>
 
                 <p>
-                    The BRDF must follow the law of conservation of energy, i.e. energy can neither be created nor
-                    destroyed. Since we are talking about light, this law is saying that the amount of outgoing light
-                    cannot
-                    be greater than the amount of incoming light.
-                </p>
-
-                <p>
-                    Energy conservation for the BRDF is often formalized as follows.
+                    The BRDF implementation must follow the law of conservation of energy, i.e. energy can neither be created nor
+                    destroyed. This means that the amount of outgoing light cannot be greater than the amount of incoming light.
                 </p>
 
                 <div style="overflow: auto;">
                     $$ \int_{\Omega} f_r(x, \omega_i, \omega_o) \, (\omega_i \cdot n) \, \mathrm{d}\omega_i \le 1 $$
                 </div>
             </section>
+        </section>
+    </section>
+
+    <section id="reflections">
+        <h2>Reflections</h2>
+
+        <section id="reflections-diffuse">
+            <h3>Diffuse Reflection</h3>
+
+            <p>
+                TODO
+            </p>
+        </section>
+
+        <section id="reflections-specular">
+            <h3>Specular Reflection</h3>
+
+            <p>
+                TODO
+            </p>
         </section>
     </section>
 
