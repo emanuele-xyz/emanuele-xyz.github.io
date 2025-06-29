@@ -357,16 +357,18 @@
         <h2>Reflections</h2>
 
         <p>
-            Many BRDF implementations, both physically plausible and not, are derived and/or inspired by the laws of
-            physics. This means that it would be helpful to us, in order to better understand various BRDF
-            implementations, to have a good grasp on how light interacts with matter, in particular how light gets
-            reflected off surfaces.
+            Having a basic understanding of how light interacts with matter, in particular of how light is reflected is
+            very important when studying various BRDF models. When reading about theoretical models, having this
+            knowledge is essential for understanding the model. When reading about empirical models, having this
+            knowledge is still useful. This is because, many empirical models, although not physically plausible, are
+            inspired by the behavior of light-matter interaction. Thus, regardless of what kind of model we are talking
+            about, having knowledge of how light behaves comes in very handy.
         </p>
 
         <p>
-            Reflection of light is either <strong>diffuse</strong> or <strong>specular</strong>. Naturally, a surface
-            may exhibit both diffuse and specular reflections. In the next sections we will discuss both types of
-            reflections.
+            We start our discussion by stating that there are two different ways in which light is reflected, that is,
+            there are two kinds of reflections: <strong>diffuse</strong> and <strong>specular</strong>. In the next
+            sections we are going to understand the nature of these kinds of reflections.
         </p>
 
         <section id="reflections-diffuse">
@@ -400,11 +402,36 @@
             <h3>Specular Reflection</h3>
 
             <p>
-                TODO
+                Specular reflection happens when a light ray, hitting a surface, gets reflected in a mirror-like way.
+                The characteristic of specular reflection is that it reflects all incoming light.
+            </p>
+
+            <figure style="display: table; margin: 1em auto; text-align: center;">
+                <img src="specular_reflection.svg" alt="specular reflection" style="max-width: 100%; height: auto;">
+                <figcaption>Specular reflection.</figcaption>
+            </figure>
+
+            <p>
+                How to obtain the reflected light ray is described by the <strong>law of reflection</strong>. The law of
+                reflection states that the angle of reflection of a ray equals the angle of incidence, and that the ray,
+                the reflected ray, and the surface normal, at the point of incidence, all lie on the same plane, i.e.
+                the <strong>plane of incidence</strong>.
             </p>
 
             <p>
-                The specular component takes the light's color.
+                The <strong>angle of reflection</strong> is the angle between the reflected ray and the surface normal,
+                at the point of incidence.
+            </p>
+
+            <p>
+                Likewise, the <strong>angle of incidence</strong> is the angle between the ray and the surface normal,
+                at the point of incidence.
+            </p>
+
+            <p>
+                It is interesting to note that, in general, specular reflection increases as the angle of incidence
+                increases. This means that, at grazing angles, specular reflections will be more prominent. This
+                behavior is described by the Fresnel equations.
             </p>
         </section>
     </section>
