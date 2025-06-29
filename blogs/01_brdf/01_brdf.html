@@ -357,30 +357,42 @@
         <h2>Reflections</h2>
 
         <p>
-            Many BRDF implementations, both physically plausible and not, are derived and/or inspired by the laws of physics. This means that it would be helpful to us, in order to better understand various BRDF implementations, to have a good grasp on how light interacts with matter, in particular how light gets reflected off surfaces.
+            Many BRDF implementations, both physically plausible and not, are derived and/or inspired by the laws of
+            physics. This means that it would be helpful to us, in order to better understand various BRDF
+            implementations, to have a good grasp on how light interacts with matter, in particular how light gets
+            reflected off surfaces.
         </p>
 
         <p>
-            Reflection of light is either <strong>diffuse</strong> or <strong>specular</strong>. Naturally, a surface may exhibit both diffuse and specular reflections. In the next sections we will discuss both types of reflections.
+            Reflection of light is either <strong>diffuse</strong> or <strong>specular</strong>. Naturally, a surface
+            may exhibit both diffuse and specular reflections. In the next sections we will discuss both types of
+            reflections.
         </p>
 
         <section id="reflections-diffuse">
             <h3>Diffuse Reflection</h3>
 
-            <p>
-                Diffuse reflection happens when a light ray, hitting a surface, scatters in many directions. This happens when the incoming light ray enters the surface. Inside the surface, the ray scatters around. Some of the rays, originating from this scattering, then exit the surface nearby the entry point.
-            </p>
+            <figure style="display: table; margin: 1em auto; text-align: center;">
+                <img src="diffuse_reflection.svg" alt="diffuse reflection" style="max-width: 100%; height: auto;">
+                <figcaption>Diffuse reflection.</figcaption>
+            </figure>
 
             <p>
-                TODO: DIFFUSE IMAGE HERE
+                Diffuse reflection happens when a light ray, hitting a surface, scatters in many directions. This
+                happens because the light ray actually goes inside the surface. Once inside, the ray starts scattering
+                around. At the end, a portion of the scattered light exits the surface in random directions, some of it
+                near the initial entry point.
             </p>
 
-            <p>
-                It is interesting to note that, during the ray scattering inside the surface, part of the ray's light gets absorbed. The rays going out of the surface will then be colored. This is what gives color to objects.
-            </p>
+            <figure style="display: table; margin: 1em auto; text-align: center;">
+                <img src="diffuse_scattering.svg" alt="diffuse scattering" style="max-width: 100%; height: auto;">
+                <figcaption>Diffuse scattering.</figcaption>
+            </figure>
 
             <p>
-                TODO: SCATTERING IMAGE HERE
+                It is interesting to note that, during the ray scattering inside the surface, part of the ray's light
+                gets absorbed. The scattered rays going out of the surface will then be colored. This is exactly what
+                gives color to objects.
             </p>
         </section>
 
