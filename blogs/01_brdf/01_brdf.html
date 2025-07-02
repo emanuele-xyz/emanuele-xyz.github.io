@@ -23,9 +23,6 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
         onload="renderMathInElement(document.body);"></script>
-
-    <!-- Visualizer -->
-    <script defer src="visualizer.js" ></script>
 </head>
 
 <body>
@@ -71,7 +68,6 @@
                 <li><a href="#reflections-diffuse">Diffuse Reflection</a></li>
                 <li><a href="#reflections-specular">Specular Reflection</a></li>
             </ul>
-            <li><a href="#visualizer">Visualizer</a></li>
             <li><a href="#biblio">Bibliography</a></li>
         </ul>
     </section>
@@ -437,26 +433,6 @@
                 behavior is described by the Fresnel equations.
             </p>
         </section>
-    </section>
-
-    <section id="visualizer">
-        <h2>Visualizer</h2>
-
-        <div style="width: 200px; margin: 0 auto;">
-            <label for="brdf-selector">BRDF:</label>
-            <select name="BRDF" id="brdf-selector">
-                <option value="lambert">Lambert</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="color-picker">Color:</label>
-            <input type="color" id="color-picker" value="#ff0000">
-        </div>
-
-        <div style="margin: 0; display: flex; justify-content: center; align-items: center;">
-            <canvas id="canvas" style="aspect-ratio: 1;"></canvas>
-        </div>
     </section>
 
     <section id="biblio">
