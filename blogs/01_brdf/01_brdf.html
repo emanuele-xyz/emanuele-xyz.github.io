@@ -38,7 +38,7 @@
 
     <section>
         <h1>BRDFs 'til I collapse</h1>
-        <p><em>Posted on June 02, 2025</em> - <em>Updated on June 29, 2025</em></p>
+        <p><em>Posted on June 02, 2025</em> - <em>Updated on October 25, 2025</em></p>
     </section>
 
     <section>
@@ -46,6 +46,9 @@
         <ul>
             <li><a href="#intro">Introduction</a></li>
             <li><a href="#rendering-equation">The Rendering Equation</a></li>
+            <ul>
+                <li><a href="#rendering-equation-lambert">Lambert's Cosine Law</a></li>
+            </ul>
             <li><a href="#brdf">BRDF</a></li>
             <ul>
                 <li><a href="#brdf-definition">Definition</a></li>
@@ -68,6 +71,7 @@
                 <li><a href="#reflections-diffuse">Diffuse Reflection</a></li>
                 <li><a href="#reflections-specular">Specular Reflection</a></li>
             </ul>
+            <li><a href="#lambert-brdf">Lambert's BRDF</a></li>
             <li><a href="#biblio">Bibliography</a></li>
         </ul>
     </section>
@@ -137,7 +141,7 @@
                 \(\omega_i \cdot n\) is the cosine of the angle between \(\omega_i\) and \(n\). It is
                 used as a weighting term and represents the fact that the intensity of reflected light from a surface is
                 proportional to the cosine of the angle between the negated light direction and the surface normal. This
-                is Lambert's cosine law. TODO: rephrase this.
+                is Lambert's cosine law.
             </li>
         </ul>
         <p>
@@ -159,6 +163,31 @@
             to do so. Thus, what rendering algorithms find when trying to solve the rendering equation is just an
             approximate solution. One that, nonetheless, yields satisfying results.
         </p>
+
+        <section id="rendering-equation-lambert">
+            <h3>Lambert's Cosine Law</h3>
+            <p>
+                To build an intuition for Lambert's law, consider the following example. Suppose we have a plane, lit by
+                uniformly distributed and parallel light rays. The rays will intersect the plane at various points. We
+                denote with \(d\) the distance between each intersection point and its neighboring points. Being the
+                rays uniform, the various distances are all equal to \(d\). Suppose we rotate the plane as seen in the
+                figure. If we look at the new distance, denoted \(d'\), between the various intersection points and
+                their neighbors, we see that \(d' > d\).
+            </p>
+            <figure style="display: table; margin: 1em auto; text-align: center;">
+                <img src="lambert_cosine.svg" alt="lambert cosine law" style="max-width: 100%; height: auto;">
+                <figcaption>Intuition of Lambert's Cosine Law.</figcaption>
+            </figure>
+            <p>
+                Being the points further apart, it makes sense to say that the density of light hitting the plane has
+                decreased. Thus, each surface point of the plane is receiving less light. When the plane is
+                perpendicular to the light rays, the density of light is at its highest. The angle between the plane's
+                normal and the negated light vector is 0 degrees. When the plane is parallel to the light rays, the
+                density of light is 0. The angle between the plane's normal and the negated light vector is 90 degrees.
+                The most appropriate function to model this behavior is the cosine.
+            </p>
+        </section>
+
     </section>
 
     <section id="brdf">
@@ -433,6 +462,13 @@
                 behavior is described by the Fresnel equations.
             </p>
         </section>
+    </section>
+
+    <section id="lambert-brdf">
+        <h2>Lambert's BRDF</h2>
+        <p>
+            TODO
+        </p>
     </section>
 
     <section id="biblio">
